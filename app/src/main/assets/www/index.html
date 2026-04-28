@@ -1,1 +1,1367 @@
+<!doctype html>
+<html lang="nl-BE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#6d39f2">
+  <meta name="description" content="Professionele Android viewport-checker voor Bootstrap 5.3.8 breakpoints.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon-192.png">
+  <title>Bootstrap Viewport Lab Pro APK</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --red: #c41230;
+      --red-dark: #9f0e26;
+      --navy: #06184a;
+      --bg: #f4f5f7;
+      --panel: rgba(255,255,255,.94);
+      --panel-solid: #fff;
+      --soft: #f0f1f4;
+      --soft-2: #e7e9ee;
+      --ink: #111827;
+      --muted: #6b7280;
+      --line: rgba(17, 24, 39, .12);
+      --shadow: 0 18px 50px rgba(17, 24, 39, .14);
+      --radius: 24px;
+      --vh: 1vh;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(196,18,48,.16), transparent 32rem),
+        linear-gradient(180deg, #fff, var(--bg));
+      color: var(--ink);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: max(14px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
+    }
+
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin: -14px -14px 14px;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.84)),
+        rgba(255,255,255,.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      margin: 0 0 5px;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(27px, 7vw, 46px);
+      line-height: .98;
+      letter-spacing: -.058em;
+    }
+
+    .intro {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--red);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 950;
+      box-shadow: 0 12px 22px rgba(196,18,48,.22);
+      white-space: nowrap;
+    }
+
+    .panel {
+      margin-bottom: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 10px 30px rgba(17, 24, 39, .08);
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .panel-title h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .live-viewport {
+      display: inline-flex;
+      min-height: 28px;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(6,24,74,.08);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .url-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(196,18,48,.45);
+      box-shadow: 0 0 0 4px rgba(196,18,48,.1);
+    }
+
+    .btn {
+      cursor: pointer;
+      min-height: 44px;
+      border: 0;
+      border-radius: 16px;
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 950;
+      transition: transform .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+
+    .btn:active,
+    .preset-card:active {
+      transform: scale(.985);
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: var(--red);
+      box-shadow: 0 12px 22px rgba(196,18,48,.22);
+    }
+
+    .btn-primary:hover {
+      background: var(--red-dark);
+    }
+
+    .btn-soft {
+      color: var(--red);
+      background: rgba(196,18,48,.11);
+    }
+
+    .btn-neutral {
+      color: #1f2937;
+      background: rgba(17,24,39,.08);
+    }
+
+    .hint {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .preset-card {
+      cursor: pointer;
+      display: grid;
+      align-content: start;
+      gap: 9px;
+      min-height: 204px;
+      padding: 14px 10px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--soft);
+      box-shadow: 0 10px 24px rgba(17, 24, 39, .08);
+      text-align: center;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .preset-card.is-active {
+      border-color: rgba(196,18,48,.62);
+      background: rgba(196,18,48,.085);
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      margin: 0 auto;
+      color: var(--navy);
+    }
+
+    .icon svg {
+      width: 62px;
+      height: 62px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .format {
+      margin: 0;
+      color: var(--navy);
+      font-size: 17px;
+      font-weight: 950;
+      line-height: 1.1;
+      letter-spacing: -.045em;
+    }
+
+    .name {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.28;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: auto;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 23px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: #fff;
+      color: #374151;
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .pill strong {
+      color: var(--red);
+    }
+
+    .controls {
+      display: grid;
+      gap: 10px;
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .control-row.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .toggle-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .switch-btn[aria-pressed="true"] {
+      color: #fff;
+      background: var(--red);
+      box-shadow: 0 10px 20px rgba(196,18,48,.2);
+    }
+
+    .preview-card {
+      overflow: hidden;
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .preview-head {
+      display: grid;
+      gap: 11px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.55);
+    }
+
+    .preview-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .preview-title {
+      margin: 0;
+      color: var(--navy);
+      font-size: 18px;
+      line-height: 1.15;
+    }
+
+    .preview-meta {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .status {
+      display: inline-flex;
+      min-height: 28px;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(196,18,48,.1);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .viewport-wrap {
+      position: relative;
+      overflow: auto;
+      min-height: calc(var(--vh) * 70);
+      padding: 16px;
+      background:
+        linear-gradient(45deg, rgba(0,0,0,.035) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(0,0,0,.035) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(0,0,0,.035) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(0,0,0,.035) 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    }
+
+    .viewport-label {
+      position: sticky;
+      top: 10px;
+      z-index: 4;
+      display: inline-flex;
+      margin: 0 0 10px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(6,24,74,.94);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.2);
+    }
+
+    .stage-shell {
+      transform-origin: top left;
+      width: max-content;
+    }
+
+    .stage {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 18px 44px rgba(0,0,0,.22);
+    }
+
+    .stage::before,
+    .stage::after {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    .stage.show-grid::before {
+      opacity: 1;
+      background:
+        linear-gradient(to right, rgba(196,18,48,.13) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(196,18,48,.13) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .stage.show-safe::after {
+      opacity: 1;
+      border: 16px solid rgba(6,24,74,.16);
+      box-shadow: inset 0 0 0 1px rgba(6,24,74,.28);
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+
+    .ruler-x,
+    .ruler-y {
+      position: absolute;
+      z-index: 3;
+      pointer-events: none;
+      color: rgba(6,24,74,.82);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .02em;
+    }
+
+    .ruler-x {
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 22px;
+      background: linear-gradient(to right, rgba(6,24,74,.28) 1px, transparent 1px);
+      background-size: 50px 100%;
+    }
+
+    .ruler-y {
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 24px;
+      background: linear-gradient(to bottom, rgba(6,24,74,.28) 1px, transparent 1px);
+      background-size: 100% 50px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    .stage:not(.show-rulers) .ruler-x,
+    .stage:not(.show-rulers) .ruler-y {
+      display: none;
+    }
+
+    .warning {
+      margin: 0;
+      padding: 12px 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .warning strong {
+      color: var(--red);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      z-index: 100;
+      transform: translateX(-50%) translateY(120%);
+      width: min(calc(100% - 28px), 520px);
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(6,24,74,.94);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.4;
+      box-shadow: 0 18px 46px rgba(0,0,0,.26);
+      transition: transform .24s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .toast.is-visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 680px) {
+      .app {
+        padding-inline: 12px;
+      }
+
+      .hero {
+        margin-inline: -12px;
+      }
+
+      .hero-card {
+        grid-template-columns: 1fr;
+      }
+
+      .badge {
+        width: fit-content;
+      }
+
+      .url-row,
+      .control-row,
+      .control-row.three,
+      .tools {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .preset-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .preset-card {
+        min-height: 190px;
+        padding: 12px 8px;
+      }
+
+      .icon,
+      .icon svg {
+        width: 50px;
+        height: 50px;
+      }
+
+      .format {
+        font-size: 15px;
+      }
+
+      .name {
+        font-size: 12px;
+      }
+
+      .pill {
+        font-size: 9px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .preset-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tools,
+      .url-row,
+      .control-row,
+      .control-row.three,
+      .toggle-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1014;
+        --panel: rgba(23,24,29,.94);
+        --panel-solid: #17181d;
+        --soft: #1d1f26;
+        --soft-2: #242731;
+        --ink: #f8fafc;
+        --muted: #a5adba;
+        --line: rgba(255,255,255,.11);
+        --navy: #eef2ff;
+        --shadow: 0 18px 50px rgba(0,0,0,.32);
+      }
+
+      html,
+      body {
+        background:
+          radial-gradient(circle at top left, rgba(196,18,48,.22), transparent 32rem),
+          linear-gradient(180deg, #15161b, var(--bg));
+      }
+
+      .hero {
+        background:
+          linear-gradient(180deg, rgba(15,16,20,.98), rgba(15,16,20,.83)),
+          rgba(15,16,20,.9);
+      }
+
+      input,
+      select,
+      .pill {
+        background: rgba(255,255,255,.08);
+        color: #fff;
+      }
+
+      .preview-head {
+        background: rgba(255,255,255,.03);
+      }
+
+      .btn-neutral {
+        color: #fff;
+        background: rgba(255,255,255,.08);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <div class="hero-card">
+        <div>
+          <p class="eyebrow">Bootstrap 5.3.8 · Android</p>
+          <h1>Viewport Lab Pro</h1>
+          <p class="intro">
+            Professionele Android APK voor Bootstrap breakpoints met presets, custom formaat,
+            rotate, zoom, grid, rulers en rapportage.
+          </p>
+        </div>
+        <div style="display:grid;gap:8px;justify-items:end"><span class="badge">APK v1.0</span><span class="badge" style="background:#06184a">APK localhost: 53847</span></div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-title">
+        <h2>Website laden</h2>
+        <span class="live-viewport" id="deviceViewport">Device: —</span>
+      </div>
+
+      <label for="urlInput">Website-URL</label>
+      <div class="url-row">
+        <input id="urlInput" type="url" inputmode="url" placeholder="https://www.jouwwebsite.be" autocomplete="url">
+        <button class="btn btn-primary" id="loadBtn" type="button">Laad preview</button>
+      </div>
+
+      <p class="hint">
+        Gebruik een volledige URL met <strong>https://</strong>. Sites met iframe-blokkering kan je via <strong>Open echt</strong> controleren.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <h2>6 schermkeuzes</h2>
+        <span class="live-viewport">Bootstrap ranges</span>
+      </div>
+      <section class="preset-grid" id="presetGrid" aria-label="Bootstrap schermkeuzes"></section>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <h2>Controlepaneel</h2>
+        <span class="live-viewport" id="selectedViewport">Target: —</span>
+      </div>
+
+      <div class="controls">
+        <div class="control-row">
+          <div>
+            <label for="customWidth">Custom breedte</label>
+            <input id="customWidth" type="number" min="240" max="4096" step="1" inputmode="numeric">
+          </div>
+          <div>
+            <label for="customHeight">Custom hoogte</label>
+            <input id="customHeight" type="number" min="240" max="4096" step="1" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="control-row three">
+          <button type="button" class="btn btn-soft" id="applyCustomBtn">Custom toepassen</button>
+          <button type="button" class="btn btn-neutral" id="rotateBtn">↻ Rotate</button>
+          <button type="button" class="btn btn-neutral" id="resetZoomBtn">Zoom auto</button>
+        </div>
+
+        <div class="control-row">
+          <div>
+            <label for="zoomSelect">Weergavezoom</label>
+            <select id="zoomSelect">
+              <option value="auto">Auto fit</option>
+              <option value="1">100%</option>
+              <option value="0.75">75%</option>
+              <option value="0.5">50%</option>
+              <option value="0.33">33%</option>
+              <option value="0.25">25%</option>
+            </select>
+          </div>
+          <div>
+            <label for="scrollMode">Preview scroll</label>
+            <select id="scrollMode">
+              <option value="auto">Normaal</option>
+              <option value="wide">Ruime canvas</option>
+              <option value="compact">Compact</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <button type="button" class="btn btn-neutral switch-btn" id="gridBtn" aria-pressed="false">Grid overlay</button>
+          <button type="button" class="btn btn-neutral switch-btn" id="rulersBtn" aria-pressed="false">Rulers</button>
+          <button type="button" class="btn btn-neutral switch-btn" id="safeBtn" aria-pressed="false">Safe area</button>
+          <button type="button" class="btn btn-neutral" id="copyReportBtn">Kopieer rapport</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="preview-card">
+      <div class="preview-head">
+        <div class="preview-title-row">
+          <div>
+            <h2 class="preview-title" id="previewTitle">Mobile Portrait Layout</h2>
+            <p class="preview-meta" id="previewMeta">375×667 · Bootstrap xs · prefix col-</p>
+          </div>
+          <span class="status" id="scaleLabel">scale</span>
+        </div>
+
+        <div class="tools">
+          <button type="button" class="btn btn-primary" id="reloadFrameBtn">↻ Herlaad</button>
+          <button type="button" class="btn btn-soft" id="openRealBtn">↗ Open echt</button>
+          <button type="button" class="btn btn-neutral" id="shareBtn">Delen</button>
+          <button type="button" class="btn btn-neutral" id="fullscreenBtn">Fullscreen</button>
+        </div>
+      </div>
+
+      <div class="viewport-wrap" id="viewportWrap">
+        <div class="viewport-label" id="viewportLabel">Target: 375×667</div>
+
+        <div class="stage-shell" id="stageShell">
+          <div class="stage" id="stage">
+            <div class="ruler-x">0 → px</div>
+            <div class="ruler-y">0 ↓ px</div>
+            <iframe
+              id="previewFrame"
+              title="Bootstrap preview"
+              referrerpolicy="no-referrer-when-downgrade"
+              sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <p class="warning">
+        <strong>Belangrijk:</strong> deze Android-versie gebruikt een iframe-preview. CSS media queries reageren op de framebreedte.
+        Sommige websites blokkeren embedding via <code>X-Frame-Options</code> of <code>Content-Security-Policy</code>.
+      </p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const presets = [
+      {
+        id: "mobile-portrait",
+        icon: "mobilePortrait",
+        format: "375 X 667",
+        name: "Mobile Portrait Layout",
+        breakpoint: "xs",
+        prefix: "col-",
+        range: "0 – 575.98px",
+        width: 375,
+        height: 667
+      },
+      {
+        id: "mobile-landscape",
+        icon: "mobileLandscape",
+        format: "667 X 375px",
+        name: "Mobile Landscape Layout",
+        breakpoint: "sm",
+        prefix: "sm",
+        range: "576 – 767.98px",
+        width: 667,
+        height: 375
+      },
+      {
+        id: "tablet-portrait",
+        icon: "tabletPortrait",
+        format: "768 X 1024px",
+        name: "Tablet Portrait Layout",
+        breakpoint: "md",
+        prefix: "md",
+        range: "768 – 991.98px",
+        width: 768,
+        height: 1024
+      },
+      {
+        id: "tablet-landscape",
+        icon: "tabletLandscape",
+        format: "1024 X 768px",
+        name: "Tablet Landscape Layout",
+        breakpoint: "lg",
+        prefix: "lg",
+        range: "992 – 1199.98px",
+        width: 1024,
+        height: 768
+      },
+      {
+        id: "notebook",
+        icon: "notebook",
+        format: "1364 X 768px",
+        name: "Notebook Screen Layout",
+        breakpoint: "xl",
+        prefix: "xl",
+        range: "1200 – 1399.98px",
+        width: 1364,
+        height: 768
+      },
+      {
+        id: "full-screen",
+        icon: "desktop",
+        format: "1920 X 1080px",
+        name: "Full Screen Layout",
+        breakpoint: "xxl",
+        prefix: "xxl",
+        range: "1400px+",
+        width: 1920,
+        height: 1080
+      }
+    ];
+
+    const icons = {
+      desktop: `
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="10" y="10" width="44" height="34" rx="3"></rect>
+          <path d="M10 37h44"></path>
+          <path d="M28 44h8"></path>
+          <path d="M25 52h14"></path>
+          <path d="M22 56h20"></path>
+        </svg>
+      `,
+      notebook: `
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="13" y="14" width="38" height="30" rx="3"></rect>
+          <path d="M9 48h46l-4 4H13z"></path>
+          <path d="M28 48h8"></path>
+        </svg>
+      `,
+      tabletPortrait: `
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="19" y="8" width="26" height="48" rx="5"></rect>
+          <circle cx="32" cy="50" r="2.5"></circle>
+          <circle cx="32" cy="14" r="1"></circle>
+        </svg>
+      `,
+      tabletLandscape: `
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="8" y="18" width="48" height="28" rx="5"></rect>
+          <circle cx="50" cy="32" r="2.2"></circle>
+          <circle cx="14" cy="32" r="1"></circle>
+        </svg>
+      `,
+      mobilePortrait: `
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="22" y="7" width="20" height="50" rx="4"></rect>
+          <path d="M28 11h8"></path>
+          <path d="M28 51h8"></path>
+        </svg>
+      `,
+      mobileLandscape: `
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="8" y="22" width="48" height="20" rx="4"></rect>
+          <path d="M13 28v8"></path>
+          <path d="M51 28v8"></path>
+        </svg>
+      `
+    };
+
+    const presetGrid = document.getElementById("presetGrid");
+    const urlInput = document.getElementById("urlInput");
+    const loadBtn = document.getElementById("loadBtn");
+    const stageShell = document.getElementById("stageShell");
+    const stage = document.getElementById("stage");
+    const viewportWrap = document.getElementById("viewportWrap");
+    const previewFrame = document.getElementById("previewFrame");
+    const previewTitle = document.getElementById("previewTitle");
+    const previewMeta = document.getElementById("previewMeta");
+    const viewportLabel = document.getElementById("viewportLabel");
+    const scaleLabel = document.getElementById("scaleLabel");
+    const selectedViewport = document.getElementById("selectedViewport");
+    const deviceViewport = document.getElementById("deviceViewport");
+    const customWidth = document.getElementById("customWidth");
+    const customHeight = document.getElementById("customHeight");
+    const zoomSelect = document.getElementById("zoomSelect");
+    const scrollMode = document.getElementById("scrollMode");
+    const reloadFrameBtn = document.getElementById("reloadFrameBtn");
+    const openRealBtn = document.getElementById("openRealBtn");
+    const shareBtn = document.getElementById("shareBtn");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+    const rotateBtn = document.getElementById("rotateBtn");
+    const applyCustomBtn = document.getElementById("applyCustomBtn");
+    const resetZoomBtn = document.getElementById("resetZoomBtn");
+    const gridBtn = document.getElementById("gridBtn");
+    const rulersBtn = document.getElementById("rulersBtn");
+    const safeBtn = document.getElementById("safeBtn");
+    const copyReportBtn = document.getElementById("copyReportBtn");
+    const toast = document.getElementById("toast");
+
+    let activePreset = { ...presets[0] };
+    let currentUrl = "";
+    let customMode = false;
+
+    function setVH() {
+      document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+    }
+
+    function toastMessage(message) {
+      toast.textContent = message;
+      toast.classList.add("is-visible");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => toast.classList.remove("is-visible"), 3200);
+    }
+
+    function normalizeUrl(value) {
+      const trimmed = String(value || "").trim();
+      if (!trimmed) return "";
+      if (/^https?:\/\//i.test(trimmed)) return trimmed;
+      return "https://" + trimmed;
+    }
+
+    function currentBreakpointForWidth(width) {
+      if (width >= 1400) return { bp: "xxl", prefix: "xxl", range: "1400px+" };
+      if (width >= 1200) return { bp: "xl", prefix: "xl", range: "1200 – 1399.98px" };
+      if (width >= 992) return { bp: "lg", prefix: "lg", range: "992 – 1199.98px" };
+      if (width >= 768) return { bp: "md", prefix: "md", range: "768 – 991.98px" };
+      if (width >= 576) return { bp: "sm", prefix: "sm", range: "576 – 767.98px" };
+      return { bp: "xs", prefix: "col-", range: "0 – 575.98px" };
+    }
+
+    function updateDeviceViewport() {
+      deviceViewport.textContent = `Device: ${window.innerWidth}×${window.innerHeight}`;
+    }
+
+    function renderPresets() {
+      presetGrid.innerHTML = "";
+
+      presets.forEach((preset) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "preset-card";
+        card.dataset.id = preset.id;
+        card.innerHTML = `
+          <div class="icon">${icons[preset.icon]}</div>
+          <div>
+            <p class="format">${preset.format}</p>
+            <p class="name">${preset.name}</p>
+          </div>
+          <div class="meta">
+            <span class="pill">Bootstrap <strong>${preset.breakpoint}</strong></span>
+            <span class="pill">prefix <strong>${preset.prefix}</strong></span>
+            <span class="pill">${preset.range}</span>
+          </div>
+        `;
+        presetGrid.appendChild(card);
+      });
+    }
+
+    function syncActiveCard() {
+      document.querySelectorAll(".preset-card").forEach((card) => {
+        card.classList.toggle("is-active", !customMode && card.dataset.id === activePreset.id);
+      });
+    }
+
+    function setActivePreset(preset, options = {}) {
+      customMode = Boolean(options.custom);
+      activePreset = { ...preset };
+
+      if (customMode) {
+        const meta = currentBreakpointForWidth(activePreset.width);
+        activePreset.breakpoint = meta.bp;
+        activePreset.prefix = meta.prefix;
+        activePreset.range = meta.range;
+        activePreset.id = "custom";
+        activePreset.name = "Custom Layout";
+        activePreset.format = `${activePreset.width} X ${activePreset.height}px`;
+      }
+
+      syncActiveCard();
+
+      customWidth.value = activePreset.width;
+      customHeight.value = activePreset.height;
+
+      previewTitle.textContent = activePreset.name;
+      previewMeta.textContent = `${activePreset.width}×${activePreset.height} · Bootstrap ${activePreset.breakpoint} · prefix ${activePreset.prefix} · ${activePreset.range}`;
+      viewportLabel.textContent = `Target: ${activePreset.width}×${activePreset.height} · Bootstrap ${activePreset.breakpoint}`;
+      selectedViewport.textContent = `Target: ${activePreset.width}×${activePreset.height}`;
+
+      stage.style.width = `${activePreset.width}px`;
+      stage.style.height = `${activePreset.height}px`;
+
+      updateScale();
+      saveState();
+    }
+
+    function getZoomScale() {
+      const selected = zoomSelect.value;
+      if (selected !== "auto") return Number(selected);
+
+      const available = Math.max(260, viewportWrap.clientWidth - 32);
+      return Math.min(1, available / activePreset.width);
+    }
+
+    function updateScale() {
+      const scale = getZoomScale();
+
+      stageShell.style.transform = `scale(${scale})`;
+      stageShell.style.transformOrigin = "top left";
+      stageShell.style.width = `${activePreset.width}px`;
+      stageShell.style.height = `${activePreset.height}px`;
+      stageShell.style.marginBottom = `${activePreset.height * scale - activePreset.height}px`;
+
+      const scaledWidth = Math.round(activePreset.width * scale);
+      const scaledHeight = Math.round(activePreset.height * scale);
+      scaleLabel.textContent = `Target ${activePreset.width}×${activePreset.height} · shown ${scaledWidth}×${scaledHeight} · ${Math.round(scale * 100)}%`;
+
+      if (scrollMode.value === "wide") {
+        viewportWrap.style.minHeight = "calc(var(--vh) * 82)";
+      } else if (scrollMode.value === "compact") {
+        viewportWrap.style.minHeight = "calc(var(--vh) * 52)";
+      } else {
+        viewportWrap.style.minHeight = "calc(var(--vh) * 70)";
+      }
+    }
+
+    function loadPreview() {
+      currentUrl = normalizeUrl(urlInput.value);
+      if (!currentUrl) {
+        toastMessage("Vul eerst een URL in.");
+        return;
+      }
+
+      localStorage.setItem("viewportLabUrl", currentUrl);
+      previewFrame.src = currentUrl;
+      saveState();
+      toastMessage("Preview geladen.");
+    }
+
+    function reloadFrame() {
+      if (!currentUrl) {
+        loadPreview();
+        return;
+      }
+
+      previewFrame.src = "about:blank";
+      window.setTimeout(() => {
+        previewFrame.src = currentUrl;
+      }, 80);
+    }
+
+    function openReal() {
+      const url = normalizeUrl(urlInput.value) || currentUrl;
+      if (!url) {
+        toastMessage("Vul eerst een URL in.");
+        return;
+      }
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function rotatePreset() {
+      const rotated = {
+        ...activePreset,
+        width: activePreset.height,
+        height: activePreset.width,
+        format: `${activePreset.height} X ${activePreset.width}px`,
+        name: activePreset.name.includes("Landscape")
+          ? activePreset.name.replace("Landscape", "Portrait")
+          : activePreset.name.includes("Portrait")
+            ? activePreset.name.replace("Portrait", "Landscape")
+            : `${activePreset.name} Rotated`
+      };
+
+      setActivePreset(rotated, { custom: true });
+      toastMessage("Viewport gedraaid.");
+    }
+
+    function applyCustom() {
+      const width = Math.max(240, Math.min(4096, Number(customWidth.value || activePreset.width)));
+      const height = Math.max(240, Math.min(4096, Number(customHeight.value || activePreset.height)));
+
+      setActivePreset({
+        width,
+        height,
+        format: `${width} X ${height}px`,
+        name: "Custom Layout"
+      }, { custom: true });
+
+      toastMessage("Custom viewport toegepast.");
+    }
+
+    function toggleClass(button, className) {
+      const isPressed = button.getAttribute("aria-pressed") === "true";
+      button.setAttribute("aria-pressed", String(!isPressed));
+      stage.classList.toggle(className, !isPressed);
+      updateScale();
+    }
+
+    function getReportText() {
+      return [
+        "Bootstrap Viewport Lab Pro APK",
+        "-----------------------------------",
+        `URL: ${normalizeUrl(urlInput.value) || currentUrl || "-"}`,
+        `Schermkeuze: ${activePreset.name}`,
+        `Target viewport: ${activePreset.width}×${activePreset.height}`,
+        `Bootstrap breakpoint: ${activePreset.breakpoint}`,
+        `Class prefix: ${activePreset.prefix}`,
+        `Range: ${activePreset.range}`,
+        `Android device viewport: ${window.innerWidth}×${window.innerHeight}`,
+        `Zoom: ${zoomSelect.value}`,
+        `Grid overlay: ${stage.classList.contains("show-grid") ? "aan" : "uit"}`,
+        `Rulers: ${stage.classList.contains("show-rulers") ? "aan" : "uit"}`,
+        `Safe area: ${stage.classList.contains("show-safe") ? "aan" : "uit"}`,
+        `Datum: ${new Date().toLocaleString("nl-BE")}`
+      ].join("\\n");
+    }
+
+    async function copyReport() {
+      const text = getReportText();
+
+      try {
+        await navigator.clipboard.writeText(text);
+        toastMessage("Rapport gekopieerd.");
+      } catch (error) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        textarea.remove();
+        toastMessage("Rapport gekopieerd.");
+      }
+    }
+
+    async function shareReport() {
+      const url = normalizeUrl(urlInput.value) || currentUrl || location.href;
+      const text = getReportText();
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Bootstrap viewport rapport",
+            text,
+            url
+          });
+          return;
+        } catch (error) {
+          // user cancelled or share failed
+        }
+      }
+
+      await copyReport();
+    }
+
+    function saveState() {
+      localStorage.setItem("viewportLabState", JSON.stringify({
+        url: normalizeUrl(urlInput.value) || currentUrl,
+        preset: activePreset,
+        customMode,
+        zoom: zoomSelect.value,
+        scrollMode: scrollMode.value,
+        grid: stage.classList.contains("show-grid"),
+        rulers: stage.classList.contains("show-rulers"),
+        safe: stage.classList.contains("show-safe")
+      }));
+    }
+
+    function restoreState() {
+      const raw = localStorage.getItem("viewportLabState");
+
+      if (!raw) {
+        const savedUrl = localStorage.getItem("viewportLabUrl");
+        if (savedUrl) {
+          urlInput.value = savedUrl;
+          currentUrl = savedUrl;
+        }
+        setActivePreset(presets[0]);
+        return;
+      }
+
+      try {
+        const state = JSON.parse(raw);
+        if (state.url) {
+          urlInput.value = state.url;
+          currentUrl = state.url;
+        }
+
+        if (state.zoom) zoomSelect.value = state.zoom;
+        if (state.scrollMode) scrollMode.value = state.scrollMode;
+
+        stage.classList.toggle("show-grid", Boolean(state.grid));
+        gridBtn.setAttribute("aria-pressed", String(Boolean(state.grid)));
+
+        stage.classList.toggle("show-rulers", Boolean(state.rulers));
+        rulersBtn.setAttribute("aria-pressed", String(Boolean(state.rulers)));
+
+        stage.classList.toggle("show-safe", Boolean(state.safe));
+        safeBtn.setAttribute("aria-pressed", String(Boolean(state.safe)));
+
+        const restoredPreset = state.preset && state.preset.width ? state.preset : presets[0];
+        setActivePreset(restoredPreset, { custom: Boolean(state.customMode || restoredPreset.id === "custom") });
+      } catch (error) {
+        setActivePreset(presets[0]);
+      }
+    }
+
+    function registerServiceWorker() {
+      if (!("serviceWorker" in navigator)) return;
+      if (location.protocol === "file:") return;
+
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    }
+
+    presetGrid.addEventListener("click", (event) => {
+      const card = event.target.closest(".preset-card");
+      if (!card) return;
+
+      const preset = presets.find((item) => item.id === card.dataset.id);
+      if (!preset) return;
+
+      setActivePreset(preset);
+      toastMessage(`${preset.name} geselecteerd.`);
+    });
+
+    loadBtn.addEventListener("click", loadPreview);
+    reloadFrameBtn.addEventListener("click", reloadFrame);
+    openRealBtn.addEventListener("click", openReal);
+    shareBtn.addEventListener("click", shareReport);
+    rotateBtn.addEventListener("click", rotatePreset);
+    applyCustomBtn.addEventListener("click", applyCustom);
+    copyReportBtn.addEventListener("click", copyReport);
+
+    resetZoomBtn.addEventListener("click", () => {
+      zoomSelect.value = "auto";
+      updateScale();
+      saveState();
+      toastMessage("Zoom op auto gezet.");
+    });
+
+    gridBtn.addEventListener("click", () => {
+      toggleClass(gridBtn, "show-grid");
+      saveState();
+    });
+
+    rulersBtn.addEventListener("click", () => {
+      toggleClass(rulersBtn, "show-rulers");
+      saveState();
+    });
+
+    safeBtn.addEventListener("click", () => {
+      toggleClass(safeBtn, "show-safe");
+      saveState();
+    });
+
+    fullscreenBtn.addEventListener("click", async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await viewportWrap.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        toastMessage("Fullscreen is niet beschikbaar in deze browser.");
+      }
+    });
+
+    urlInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") loadPreview();
+    });
+
+    zoomSelect.addEventListener("change", () => {
+      updateScale();
+      saveState();
+    });
+
+    scrollMode.addEventListener("change", () => {
+      updateScale();
+      saveState();
+    });
+
+    customWidth.addEventListener("change", applyCustom);
+    customHeight.addEventListener("change", applyCustom);
+
+    window.addEventListener("resize", () => {
+      setVH();
+      updateDeviceViewport();
+      updateScale();
+    });
+
+    window.addEventListener("orientationchange", () => {
+      window.setTimeout(() => {
+        setVH();
+        updateDeviceViewport();
+        updateScale();
+      }, 250);
+    });
+
+    document.addEventListener("fullscreenchange", updateScale);
+
+    renderPresets();
+    setVH();
+    updateDeviceViewport();
+    restoreState();
+    registerServiceWorker();
+
+    if (currentUrl) {
+      // Deliberately do not auto-load to avoid immediately embedding external pages.
+    }
+  </script>
+</body>
+</html>
