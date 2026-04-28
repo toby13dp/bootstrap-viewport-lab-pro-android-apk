@@ -1,0 +1,28 @@
+bootstrap-viewport-lab-pro-android-apk/
+├─ settings.gradle
+├─ build.gradle
+├─ gradle.properties
+├─ build-debug-apk.ps1
+├─ build-debug-apk.bat
+├─ README.md
+└─ app/
+   ├─ build.gradle
+   └─ src/main/
+      ├─ AndroidManifest.xml
+      ├─ assets/www/
+      │  ├─ index.html
+      │  ├─ manifest.webmanifest
+      │  ├─ sw.js
+      │  └─ assets/
+      ├─ java/be/creatieplezier/viewportlab/
+      │  ├─ MainActivity.java
+      │  ├─ LocalAssetHttpServer.java
+      │  └─ ViewportLabApplication.java
+      └─ res/
+         ├─ mipmap-mdpi/ic_launcher.png
+         ├─ mipmap-hdpi/ic_launcher.png
+         ├─ mipmap-xhdpi/ic_launcher.png
+         ├─ mipmap-xxhdpi/ic_launcher.png
+         ├─ mipmap-xxxhdpi/ic_launcher.png
+         ├─ values/
+         └─ xml/
