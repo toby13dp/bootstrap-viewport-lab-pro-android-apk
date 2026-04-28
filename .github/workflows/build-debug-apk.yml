@@ -35,6 +35,11 @@ jobs:
           unzip -q gradle-8.9-bin.zip
           echo "$PWD/gradle-8.9/bin" >> "$GITHUB_PATH"
 
+- name: Extract Android res folder
+        run: |
+          rm -rf app/src/main/res
+          unzip -o app/src/main/res.zip -d app/src/main/
+          
       - name: Build debug APK
         run: gradle assembleDebug --no-daemon --stacktrace
 
